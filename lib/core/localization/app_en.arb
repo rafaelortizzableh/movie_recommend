@@ -1,0 +1,62 @@
+{
+  "appTitle": "ultimate_app",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "The title of the theme on Theme Appbar"
+  },
+  "systemTheme": "System Theme",
+  "@systemTheme": {
+    "description": "Name of system theme"
+  },
+  "lightTheme": "Light Theme",
+  "@lightTheme": {
+    "description": "Name of light theme"
+  },
+  "darkTheme": "Dark Theme",
+  "@darkTheme": {
+    "description": "Name of dark theme"
+  },
+  "landingFindMovie": "Let's find a movie",
+  "@landingFindMovie": {
+    "description": "Landing page copywriting"
+  },
+  "landingGetStarted": "Get Started",
+  "@landingGetStarted": {
+    "description": "Landing page Get Started Button"
+  },
+  "genreStartWithGenre": "Let's start with a genre",
+  "@genreStartWithGenre": {
+    "description": "Genre Page start with genre"
+  },
+  "ratingPickRating": "Select a minimum rating ranging from 1 to 10",
+  "@ratingPickRating": {
+    "description": "Rating screen title text"
+  },
+  "yearsBackPickerTitle": "How many years back should we check for?",
+  "@yearsBackPickerTitle": {
+    "description": "Years back screen title text"
+  },
+  "yearsBack": "Between",
+  "@yearsBack": {
+    "description": "Range years text on Years Back Screen"
+  },
+  "pageViewContinue": "Continue",
+  "@pageViewContinue": {
+    "description": "Next page text for Button on PageView"
+  },
+  "resultsButtonText": "Find another movie",
+  "@resultsButtonText": {
+    "description": "Text for Button on Result View"
+  },
+  "noInternetConnection": "No Internet connection",
+  "@noInternetConnection": {
+    "description": "Text for 'No Internet connection Error'"
+  },
+  "noMoviesFound": "No movies found",
+  "@noMoviesFound": {
+    "description": "Text for 'No movies found'"
+  }
+}

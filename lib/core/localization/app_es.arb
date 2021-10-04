@@ -1,0 +1,17 @@
+{
+  "appTitle": "Tu peli recomendada",
+  "theme": "Theme",
+  "lightTheme": "Light Theme",
+  "systemTheme": "System Theme",
+  "darkTheme": "Dark Theme",
+  "landingFindMovie": "Encontremos una peli",
+  "landingGetStarted": "Comenzar",
+  "genreStartWithGenre": "Empieza seleccionando género(s)",
+  "ratingPickRating": "¿Con qué rating quieres la peli?",
+  "yearsBackPickerTitle": "¿Cuántos años deberíamos retroceder en el tiempo para tu peli recomendada?",
+  "yearsBack": "Entre",
+  "pageViewContinue": "Continuar",
+  "resultsButtonText": "Buscar otra peli",
+  "noInternetConnection": "No hay conexión de internet",
+  "noMoviesFound": "No se encontró ninguna peli"
+}
