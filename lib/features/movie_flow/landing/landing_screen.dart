@@ -54,7 +54,7 @@ class LandingScreen extends ConsumerWidget {
             const Spacer(),
             PrimaryButton(
               onPressed: () =>
-                  ref.read(movieFlowControllerProvider.notifier).nextPage(),
+                  ref.read(pageControllerProvider.notifier).nextPage(),
               text: '${AppLocalizations.of(context)?.landingGetStarted}',
             ),
           ],

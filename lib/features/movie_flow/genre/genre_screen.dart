@@ -16,7 +16,7 @@ class GenreScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: BackButton(
             onPressed: () =>
-                ref.read(movieFlowControllerProvider.notifier).previousPage()),
+                ref.read(pageControllerProvider.notifier).previousPage()),
       ),
       body: genres.when(
           data: (genres) => GenresSelector(genres: genres),
@@ -79,7 +79,7 @@ class GenresSelector extends ConsumerWidget {
             ),
             PrimaryButton(
               onPressed: () =>
-                  ref.read(movieFlowControllerProvider.notifier).nextPage(),
+                  ref.read(pageControllerProvider.notifier).nextPage(),
               text: '${AppLocalizations.of(context)?.pageViewContinue}',
             ),
           ],

@@ -3,7 +3,7 @@
     "short_name": "MovieRecommend",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#E82139",
     "theme_color": "#E82139",
     "description": "Personalized movie recommendations",
     "orientation": "portrait-primary",

@@ -21,7 +21,7 @@ class RatingsScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: BackButton(
             onPressed: () =>
-                ref.read(movieFlowControllerProvider.notifier).previousPage()),
+                ref.read(pageControllerProvider.notifier).previousPage()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(kHorizontalPadding),
@@ -76,7 +76,7 @@ class RatingsScreen extends ConsumerWidget {
               const Spacer(),
               PrimaryButton(
                 onPressed: () =>
-                    ref.read(movieFlowControllerProvider.notifier).nextPage(),
+                    ref.read(pageControllerProvider.notifier).nextPage(),
                 text: '${AppLocalizations.of(context)?.pageViewContinue}',
               ),
             ],

@@ -9,3 +9,4 @@ export 'genre/genre_exports.dart';
 export 'years_back/years_export.dart';
 export 'ratings/ratings_export.dart';
 export 'result/result_export.dart';
+export 'paging_state/paging_state_exports.dart';

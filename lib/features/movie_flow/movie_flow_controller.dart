@@ -8,7 +8,6 @@ final movieFlowControllerProvider =
     StateNotifierProvider.autoDispose<MovieFlowController, MovieFlowState>(
   (ref) => MovieFlowController(
     MovieFlowState(
-      pageController: PageController(),
       genres: const AsyncValue.data(
         [],
       ),
@@ -67,28 +66,5 @@ class MovieFlowController extends StateNotifier<MovieFlowState> {
 
   void updateYearsBack(RangeValues updatedYearsBack) {
     state = state.copyWith(yearsBack: updatedYearsBack);
-  }
-
-  void nextPage() {
-    if (state.pageController.page! >= 1) {
-      if (!state.genres.data!.value.any((element) => element.isSelected)) {
-        return;
-      }
-    }
-    state.pageController.nextPage(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeOutCubic);
-  }
-
-  void previousPage() {
-    state.pageController.previousPage(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeOutCubic);
-  }
-
-  @override
-  void dispose() {
-    state.pageController.dispose();
-    super.dispose();
   }
 }

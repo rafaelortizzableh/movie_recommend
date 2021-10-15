@@ -5,14 +5,12 @@ import 'movie_flow_export.dart';
 
 @immutable
 class MovieFlowState {
-  final PageController pageController;
   final int rating;
   final RangeValues yearsBack;
   final AsyncValue<List<Genre>> genres;
   final AsyncValue<Movie> movie;
 
   const MovieFlowState({
-    required this.pageController,
     this.rating = 5,
     this.yearsBack = const RangeValues(1980, 2006),
     required this.genres,
@@ -27,7 +25,6 @@ class MovieFlowState {
     AsyncValue<Movie>? movie,
   }) {
     return MovieFlowState(
-      pageController: pageController ?? this.pageController,
       rating: rating ?? this.rating,
       yearsBack: yearsBack ?? this.yearsBack,
       genres: genres ?? this.genres,
@@ -40,7 +37,6 @@ class MovieFlowState {
     if (identical(this, other)) return true;
 
     return other is MovieFlowState &&
-        other.pageController == pageController &&
         other.rating == rating &&
         other.yearsBack == yearsBack &&
         other.genres == genres &&
@@ -49,8 +45,7 @@ class MovieFlowState {
 
   @override
   int get hashCode {
-    return pageController.hashCode ^
-        rating.hashCode ^
+    return rating.hashCode ^
         yearsBack.hashCode ^
         genres.hashCode ^
         movie.hashCode;

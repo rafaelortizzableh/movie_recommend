@@ -21,7 +21,7 @@ class YearsBackScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: BackButton(
             onPressed: () =>
-                ref.read(movieFlowControllerProvider.notifier).previousPage()),
+                ref.read(pageControllerProvider.notifier).previousPage()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(kHorizontalPadding),
