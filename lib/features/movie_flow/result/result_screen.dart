@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -151,6 +153,13 @@ class ResultMovie extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: kHorizontalPadding),
+                child: FadeTransition(
+                    opacity: descriptionOpacity,
+                    child: const SugggestedMovies()),
+              )
             ],
           ),
         ),
@@ -258,17 +267,112 @@ class MovieimageDetails extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(
-                  movie.releaseDate,
-                  style: theme.textTheme.bodyText2?.copyWith(
-                      color: theme.textTheme.bodyText2?.color
-                          ?.withOpacity(_resultDetatilTextOpacity)),
+                FadeTransition(
+                  opacity: ratingOpacity,
+                  child: Text(
+                    movie.releaseDate,
+                    style: theme.textTheme.bodyText2?.copyWith(
+                        color: theme.textTheme.bodyText2?.color
+                            ?.withOpacity(_resultDetatilTextOpacity)),
+                  ),
                 ),
               ],
             ),
           )
         ],
       ),
+    );
+  }
+}
+
+class SugggestedMovies extends ConsumerWidget {
+  const SugggestedMovies({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final width = MediaQuery.of(context).size.width;
+    final movies = ref.watch(movieFlowControllerProvider).similarMovies;
+    return movies.when(
+      data: (movies) => SuggestedMoviesGrid(movies: movies),
+      loading: () => SizedBox(
+        width: width,
+        height: width / 2,
+        child: const Center(child: CircularProgressIndicator.adaptive()),
+      ),
+      error: (_, __) => const SizedBox(),
+    );
+  }
+}
+
+class SuggestedMoviesGrid extends StatelessWidget {
+  const SuggestedMoviesGrid({Key? key, required this.movies}) : super(key: key);
+  final List<Movie> movies;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Text(
+            '${AppLocalizations.of(context)?.similarMovies}',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+        const SizedBox(height: kHorizontalPadding),
+        GridView.builder(
+          shrinkWrap: true,
+          itemCount: movies.length,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            mainAxisSpacing: 0,
+            childAspectRatio: 0.7,
+            crossAxisSpacing: 0,
+          ),
+          itemBuilder: (BuildContext context, int index) => MovieBox(
+            movie: movies[index],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MovieBox extends StatelessWidget {
+  const MovieBox({Key? key, required this.movie}) : super(key: key);
+  final Movie movie;
+  static const double _emptyNumber = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Stack(
+      children: [
+        ShaderMask(
+          child: movie.posterPath != null
+              ? NetworkFadingImage(path: movie.posterPath!)
+              : const Center(
+                  child: Text('🍿'),
+                ),
+          blendMode: BlendMode.dstIn,
+          shaderCallback: (rect) => LinearGradient(
+                  begin: Alignment.center,
+                  end: Alignment.bottomCenter,
+                  colors: [theme.scaffoldBackgroundColor, Colors.transparent])
+              .createShader(
+            Rect.fromLTRB(_emptyNumber, _emptyNumber, rect.width, rect.height),
+          ),
+        ),
+        Positioned(
+          bottom: kHorizontalPadding * 2,
+          left: _emptyNumber,
+          right: _emptyNumber,
+          child: Text(movie.title, textAlign: TextAlign.center),
+        ),
+      ],
     );
   }
 }

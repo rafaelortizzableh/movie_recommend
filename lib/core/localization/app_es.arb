@@ -13,5 +13,6 @@
   "pageViewContinue": "Continuar",
   "resultsButtonText": "Buscar otra peli",
   "noInternetConnection": "No hay conexión de internet",
-  "noMoviesFound": "No se encontró ninguna peli"
+  "noMoviesFound": "No se encontró ninguna peli",
+  "similarMovies": "Similar Movies"
 }

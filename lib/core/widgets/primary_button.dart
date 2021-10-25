@@ -6,11 +6,14 @@ class PrimaryButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
+    this.isLoading = false,
     this.width = double.infinity,
   }) : super(key: key);
+
   final VoidCallback onPressed;
   final String text;
   final double width;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,17 @@ class PrimaryButton extends StatelessWidget {
         padding: const EdgeInsets.all(kHorizontalPadding),
         child: ElevatedButton(
           onPressed: onPressed,
-          child: Text(text),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (isLoading)
+                const SizedBox(
+                    height: 16.0,
+                    child: CircularProgressIndicator(color: Colors.white))
+              else
+                Text(text)
+            ],
+          ),
           style: ElevatedButton.styleFrom(elevation: 0),
         ),
       ),

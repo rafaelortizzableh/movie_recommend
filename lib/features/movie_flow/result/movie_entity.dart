@@ -10,6 +10,7 @@ class MovieEntity {
   final String releaseDate;
   final String? backdropPath;
   final String? posterPath;
+  final int id;
 
   MovieEntity({
     required this.title,
@@ -19,8 +20,8 @@ class MovieEntity {
     required this.releaseDate,
     this.backdropPath,
     this.posterPath,
+    required this.id,
   });
-
   MovieEntity copyWith({
     String? title,
     String? overview,
@@ -29,6 +30,7 @@ class MovieEntity {
     String? releaseDate,
     String? backdropPath,
     String? posterPath,
+    int? id,
   }) {
     return MovieEntity(
       title: title ?? this.title,
@@ -38,6 +40,7 @@ class MovieEntity {
       releaseDate: releaseDate ?? this.releaseDate,
       backdropPath: backdropPath ?? this.backdropPath,
       posterPath: posterPath ?? this.posterPath,
+      id: id ?? this.id,
     );
   }
 
@@ -45,13 +48,16 @@ class MovieEntity {
     return {
       'title': title,
       'overview': overview,
-      'vote_average': voteAverage,
-      'genre_ids': genreIds,
-      'release_date': releaseDate,
-      'backdrop_path': backdropPath,
-      'poster_path': posterPath,
+      'voteAverage': voteAverage,
+      'genreIds': genreIds,
+      'releaseDate': releaseDate,
+      'backdropPath': backdropPath,
+      'posterPath': posterPath,
+      'id': id,
     };
   }
+
+  String toJson() => json.encode(toMap());
 
   factory MovieEntity.fromMap(Map<String, dynamic> map) {
     return MovieEntity(
@@ -62,17 +68,16 @@ class MovieEntity {
       releaseDate: map['release_date'],
       backdropPath: map['backdrop_path'],
       posterPath: map['poster_path'],
+      id: map['id'],
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   factory MovieEntity.fromJson(String source) =>
       MovieEntity.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'MovieEntity(title: $title, overview: $overview, voteAverage: $voteAverage, genreIds: $genreIds, releaseDate: $releaseDate, backdropPath: $backdropPath, posterPath: $posterPath)';
+    return 'MovieEntity(title: $title, overview: $overview, voteAverage: $voteAverage, genreIds: $genreIds, releaseDate: $releaseDate, backdropPath: $backdropPath, posterPath: $posterPath, id: $id)';
   }
 
   @override
@@ -86,7 +91,8 @@ class MovieEntity {
         listEquals(other.genreIds, genreIds) &&
         other.releaseDate == releaseDate &&
         other.backdropPath == backdropPath &&
-        other.posterPath == posterPath;
+        other.posterPath == posterPath &&
+        other.id == id;
   }
 
   @override
@@ -97,6 +103,7 @@ class MovieEntity {
         genreIds.hashCode ^
         releaseDate.hashCode ^
         backdropPath.hashCode ^
-        posterPath.hashCode;
+        posterPath.hashCode ^
+        id.hashCode;
   }
 }

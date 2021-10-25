@@ -12,6 +12,7 @@ final movieServiceProvider = Provider<MovieService>((ref) {
 
 abstract class MovieService {
   Future<Result<Failure, List<Genre>>> getGenres();
+  Future<Result<Failure, List<Movie>>> getSimilarMovies(int movieId);
   Future<Result<Failure, List<Movie>>> getRecommendedMovie(
       int rating, RangeValues yearsBack, List<Genre> genres);
 }
@@ -50,6 +51,22 @@ class TMDBMovieService implements MovieService {
           rating.toDouble(), startingDate, endingDate, genreIds);
       final movies =
           movieEntities.map((e) => Movie.fromEntity(e, genres)).toList();
+      if (movies.isEmpty) {
+        return Error(Failure(message: 'No movies found'));
+      }
+      return Success(movies);
+    } on Failure catch (failure) {
+      return Error(failure);
+    }
+  }
+
+  @override
+  Future<Result<Failure, List<Movie>>> getSimilarMovies(int movieId) async {
+    try {
+      final movieEntities =
+          await _tmdbMovieRepository.getSimilarMovies(movieId);
+      final movies =
+          movieEntities.map((e) => Movie.fromEntity(e, const [])).toList();
       if (movies.isEmpty) {
         return Error(Failure(message: 'No movies found'));
       }

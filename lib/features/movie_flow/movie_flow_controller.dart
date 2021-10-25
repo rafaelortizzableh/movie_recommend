@@ -11,6 +11,9 @@ final movieFlowControllerProvider =
       genres: const AsyncValue.data(
         [],
       ),
+      similarMovies: const AsyncValue.data(
+        [],
+      ),
       movie: AsyncValue.data(Movie.initial()),
     ),
     ref.watch(movieServiceProvider),
@@ -32,8 +35,19 @@ class MovieFlowController extends StateNotifier<MovieFlowState> {
             (movies) {
       final random = Random();
       final movie = movies[random.nextInt(movies.length)];
+      getSimilarMovies(movie.id);
       state = state.copyWith(movie: AsyncValue.data(movie));
     });
+  }
+
+  Future<void> getSimilarMovies(int movieId) async {
+    state = state.copyWith(similarMovies: const AsyncValue.loading());
+    final result = await _movieService.getSimilarMovies(movieId);
+    result.when(
+        (error) =>
+            state = state.copyWith(similarMovies: AsyncValue.error(error)),
+        (similarMovies) => state =
+            state.copyWith(similarMovies: AsyncValue.data(similarMovies)));
   }
 
   Future<void> loadGenres() async {

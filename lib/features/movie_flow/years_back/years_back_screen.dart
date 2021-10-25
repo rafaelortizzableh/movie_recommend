@@ -16,6 +16,7 @@ class YearsBackScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final yearsBack = ref.watch(movieFlowControllerProvider).yearsBack;
+    final movie = ref.watch(movieFlowControllerProvider).movie;
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -90,6 +91,10 @@ class YearsBackScreen extends ConsumerWidget {
               ),
               const Spacer(),
               PrimaryButton(
+                isLoading: movie.when(
+                    data: (_) => false,
+                    loading: () => true,
+                    error: (_, __) => false),
                 onPressed: () async {
                   await ref
                       .read(movieFlowControllerProvider.notifier)

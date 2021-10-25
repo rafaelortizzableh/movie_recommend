@@ -11,6 +11,7 @@ class Movie {
   final String releaseDate;
   final String? backdropPath;
   final String? posterPath;
+  final int id;
 
   const Movie({
     required this.title,
@@ -20,12 +21,14 @@ class Movie {
     required this.releaseDate,
     this.backdropPath,
     this.posterPath,
+    required this.id,
   });
 
   Movie.initial()
       : title = '',
         overview = '',
         voteAverage = 0,
+        id = 0,
         genres = [],
         releaseDate = '',
         backdropPath = '',
@@ -42,6 +45,7 @@ class Movie {
     String? releaseDate,
     String? backdropPath,
     String? posterPath,
+    int? id,
   }) {
     return Movie(
       title: title ?? this.title,
@@ -51,6 +55,7 @@ class Movie {
       releaseDate: releaseDate ?? this.releaseDate,
       backdropPath: backdropPath ?? this.backdropPath,
       posterPath: posterPath ?? this.posterPath,
+      id: id ?? this.id,
     );
   }
 
@@ -63,6 +68,7 @@ class Movie {
       'releaseDate': releaseDate,
       'backdropPath': backdropPath,
       'posterPath': posterPath,
+      'id': id,
     };
   }
 
@@ -75,11 +81,13 @@ class Movie {
       releaseDate: map['releaseDate'],
       backdropPath: map['backdropPath'],
       posterPath: map['posterPath'],
+      id: map['id'],
     );
   }
 
   factory Movie.fromEntity(MovieEntity movieEntity, List<Genre> genres) {
     return Movie(
+        id: movieEntity.id,
         title: movieEntity.title,
         overview: movieEntity.overview,
         backdropPath:
@@ -99,7 +107,7 @@ class Movie {
 
   @override
   String toString() {
-    return 'Movie(title: $title, overview: $overview, voteAverage: $voteAverage, genres: $genres, releaseDate: $releaseDate, backdropPath: $backdropPath, posterPath: $posterPath)';
+    return 'Movie(title: $title, overview: $overview, voteAverage: $voteAverage, genres: $genres, releaseDate: $releaseDate, backdropPath: $backdropPath, posterPath: $posterPath, id: $id)';
   }
 
   @override
@@ -113,7 +121,8 @@ class Movie {
         listEquals(other.genres, genres) &&
         other.releaseDate == releaseDate &&
         other.backdropPath == backdropPath &&
-        other.posterPath == posterPath;
+        other.posterPath == posterPath &&
+        other.id == id;
   }
 
   @override
@@ -124,6 +133,7 @@ class Movie {
         genres.hashCode ^
         releaseDate.hashCode ^
         backdropPath.hashCode ^
-        posterPath.hashCode;
+        posterPath.hashCode ^
+        id.hashCode;
   }
 }

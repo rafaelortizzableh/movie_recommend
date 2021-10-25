@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'movie_flow_export.dart';
@@ -12,6 +13,7 @@ final movieRepositoryProvider = Provider<MovieRepository>(
 
 abstract class MovieRepository {
   Future<List<GenreEntity>> getMovieGenres();
+  Future<List<MovieEntity>> getSimilarMovies(int movieId);
   Future<List<MovieEntity>> getRecommendedMovie(
       double rating, String startingDate, String endingDate, String genreIds);
 }
@@ -71,6 +73,40 @@ class TMDBMovieRepository implements MovieRepository {
 
       final response =
           await _dio.get('discover/movie', queryParameters: queryParams);
+      final results = List<Map<String, dynamic>>.from(response.data['results']);
+      Clipboard.setData(ClipboardData(text: results.toString()));
+      return results.map((e) => MovieEntity.fromMap(e)).toList();
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        throw Failure(
+          message:
+              '${AppLocalizations.of(AppConstants.navigationKey.currentContext!)?.noInternetConnection}',
+          exception: e,
+        );
+      }
+
+      throw Failure(
+        message: e.response?.statusMessage ?? 'Something went wrong',
+        code: e.response?.statusCode,
+      );
+    }
+  }
+
+  @override
+  Future<List<MovieEntity>> getSimilarMovies(int movieId) async {
+    try {
+      var languageCode =
+          Localizations.localeOf(AppConstants.navigationKey.currentContext!)
+              .languageCode;
+
+      final queryParams = {
+        'api_key': AppConstants.apiKey,
+        'page': 1,
+        'language': languageCode,
+      };
+
+      final response = await _dio.get('movie/$movieId/similar',
+          queryParameters: queryParams);
       final results = List<Map<String, dynamic>>.from(response.data['results']);
       return results.map((e) => MovieEntity.fromMap(e)).toList();
     } on DioError catch (e) {
