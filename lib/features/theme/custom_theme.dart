@@ -12,20 +12,20 @@ class CustomTheme {
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,
         primarySwatch: MaterialColor(
-          Palette.red500.value,
+          Palette.indigo500.value,
           const {
-            100: Palette.red100,
-            200: Palette.red200,
-            300: Palette.red300,
-            400: Palette.red400,
-            500: Palette.red500,
-            600: Palette.red600,
-            700: Palette.red700,
-            800: Palette.red800,
-            900: Palette.red900,
+            100: Palette.indigo100,
+            200: Palette.indigo200,
+            300: Palette.indigo300,
+            400: Palette.indigo400,
+            500: Palette.indigo500,
+            600: Palette.indigo600,
+            700: Palette.indigo700,
+            800: Palette.indigo800,
+            900: Palette.indigo900,
           },
         ),
-        accentColor: Palette.red500,
+        accentColor: Palette.indigo500,
       ),
       scaffoldBackgroundColor: Palette.black,
       appBarTheme: const AppBarTheme(
@@ -42,7 +42,7 @@ class CustomTheme {
           .apply(displayColor: Colors.white),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: Palette.red500,
+          backgroundColor: Palette.indigo500,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -64,26 +64,26 @@ class CustomTheme {
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.light,
         primarySwatch: MaterialColor(
-          Palette.red500.value,
+          Palette.indigo500.value,
           const {
-            100: Palette.red100,
-            200: Palette.red200,
-            300: Palette.red300,
-            400: Palette.red400,
-            500: Palette.red500,
-            600: Palette.red600,
-            700: Palette.red700,
-            800: Palette.red800,
-            900: Palette.red900,
+            100: Palette.indigo100,
+            200: Palette.indigo200,
+            300: Palette.indigo300,
+            400: Palette.indigo400,
+            500: Palette.indigo500,
+            600: Palette.indigo600,
+            700: Palette.indigo700,
+            800: Palette.indigo800,
+            900: Palette.indigo900,
           },
         ),
-        accentColor: Palette.red500,
+        accentColor: Palette.indigo500,
       ),
       scaffoldBackgroundColor: Palette.white,
       appBarTheme: const AppBarTheme(
           elevation: _appBarElevation,
           color: Palette.white,
-          foregroundColor: Palette.red500),
+          foregroundColor: Palette.indigo500),
       textTheme: theme.primaryTextTheme
           .copyWith(
             button: theme.primaryTextTheme.button?.copyWith(
@@ -94,7 +94,7 @@ class CustomTheme {
           .apply(displayColor: Colors.black, bodyColor: Colors.black),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: Palette.red500,
+          backgroundColor: Palette.indigo500,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

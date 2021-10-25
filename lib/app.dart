@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/core.dart';
 import 'features/movie_flow/movie_flow_export.dart';
 import 'features/theme/theme_export.dart';
@@ -14,10 +14,6 @@ class MyApp extends ConsumerWidget {
     return Builder(
       builder: (BuildContext context) {
         return MaterialApp(
-          // Providing a restorationScopeId allows the Navigator built by the
-          // MaterialApp to restore the navigation stack when a user leaves and
-          // returns to the app after it has been killed while running in the
-          // background.
           restorationScopeId: 'app',
           title: 'Movie Recomendation App',
           localizationsDelegates: const [
@@ -33,8 +29,6 @@ class MyApp extends ConsumerWidget {
           darkTheme: CustomTheme.darkTheme(),
           themeMode: ref.watch(themeControllerProvider),
           navigatorKey: AppConstants.navigationKey,
-          // Define a function to handle named routes in order to support
-          // Flutter web url navigation and deep linking.
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(
               settings: routeSettings,

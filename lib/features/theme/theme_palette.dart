@@ -3,13 +3,13 @@ import 'package:flutter/rendering.dart';
 class Palette {
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
-  static const Color red100 = Color(0xfffce5e8);
-  static const Color red200 = Color(0xfff7b2ba);
-  static const Color red300 = Color(0xfff27f8d);
-  static const Color red400 = Color(0xffec4b5f);
-  static const Color red500 = Color(0xffE82139);
-  static const Color red600 = Color(0xffb41326);
-  static const Color red700 = Color(0xff800d1b);
-  static const Color red800 = Color(0xff4d0810);
-  static const Color red900 = Color(0xff1a0305);
+  static const Color indigo100 = Color(0xffC5CAE9);
+  static const Color indigo200 = Color(0xff9FA8DA);
+  static const Color indigo300 = Color(0xff7986CB);
+  static const Color indigo400 = Color(0xff5C6BC0);
+  static const Color indigo500 = Color(0xff3F51B5);
+  static const Color indigo600 = Color(0xff3949AB);
+  static const Color indigo700 = Color(0xff303F9F);
+  static const Color indigo800 = Color(0xff283593);
+  static const Color indigo900 = Color(0xff1A237E);
 }
