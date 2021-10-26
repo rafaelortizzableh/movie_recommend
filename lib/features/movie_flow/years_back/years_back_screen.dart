@@ -93,8 +93,8 @@ class YearsBackScreen extends ConsumerWidget {
               PrimaryButton(
                 isLoading: movie.when(
                     data: (_) => false,
-                    loading: () => true,
-                    error: (_, __) => false),
+                    loading: (_) => true,
+                    error: (_, __, ___) => false),
                 onPressed: () async {
                   await ref
                       .read(movieFlowControllerProvider.notifier)
