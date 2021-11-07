@@ -335,7 +335,7 @@ class SuggestedMoviesGrid extends StatelessWidget {
           itemCount: movies.length,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
+            maxCrossAxisExtent: 300,
             mainAxisSpacing: 0,
             childAspectRatio: 0.7,
             crossAxisSpacing: 0,
@@ -365,7 +365,6 @@ class MovieBox extends StatelessWidget {
     return Consumer(builder: (context, ref, _) {
       final recommendedMovieNotifier =
           ref.watch(recommendedMovieProvider.notifier);
-
       return PeekAndPop(
         onPeek: () {
           recommendedMovieNotifier.previewMovie(movie: movie);

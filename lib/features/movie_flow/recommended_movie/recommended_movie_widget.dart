@@ -38,8 +38,6 @@ class RecommendedMovieWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      color: theme.canvasColor
-                          .withOpacity(_backgroundColorOpacity),
                       padding: const EdgeInsets.symmetric(
                           horizontal: _padding8, vertical: _padding16),
                       child: Text(movie.title)),
