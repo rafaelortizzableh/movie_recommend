@@ -71,7 +71,9 @@ class ResultScreen extends ConsumerWidget {
             animationController: animationController),
         loading: (_) =>
             const Center(child: CircularProgressIndicator.adaptive()),
-        error: (error, _, __) => FailureBody(message: '$error'),
+        error: (error, _, __) => error is Failure
+            ? FailureBody(message: error.message)
+            : const SizedBox(),
       ),
     );
   }

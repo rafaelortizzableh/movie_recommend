@@ -6,7 +6,7 @@ import 'paging_state_exports.dart';
 final pageControllerProvider =
     StateNotifierProvider.autoDispose<PagingController, PageState>((ref) {
   ref.maintainState = true;
-  final genres = ref.watch(movieFlowControllerProvider).genres.data?.value;
+  final genres = ref.watch(movieFlowControllerProvider).genres.asData?.value;
   return PagingController(PageState(pageController: PageController()),
       genres: genres);
 });
