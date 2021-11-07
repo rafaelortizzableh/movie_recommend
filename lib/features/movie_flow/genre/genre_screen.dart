@@ -20,9 +20,9 @@ class GenreScreen extends ConsumerWidget {
       ),
       body: genres.when(
           data: (genres) => GenresSelector(genres: genres),
-          loading: (_) =>
+          loading: () =>
               const Center(child: CircularProgressIndicator.adaptive()),
-          error: (error, _, __) => error is Failure
+          error: (error, _) => error is Failure
               ? FailureBody(message: '$error')
               : const SizedBox()),
     );

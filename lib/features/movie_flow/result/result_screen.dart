@@ -69,9 +69,9 @@ class ResultScreen extends ConsumerWidget {
             mediaQuery: mediaQuery,
             theme: theme,
             animationController: animationController),
-        loading: (_) =>
+        loading: () =>
             const Center(child: CircularProgressIndicator.adaptive()),
-        error: (error, _, __) => error is Failure
+        error: (error, _) => error is Failure
             ? FailureBody(message: error.message)
             : const SizedBox(),
       ),
@@ -296,12 +296,12 @@ class SugggestedMovies extends ConsumerWidget {
     final movies = ref.watch(movieFlowControllerProvider).similarMovies;
     return movies.when(
       data: (movies) => SuggestedMoviesGrid(movies: movies),
-      loading: (_) => SizedBox(
+      loading: () => SizedBox(
         width: width,
         height: width / 2,
         child: const Center(child: CircularProgressIndicator.adaptive()),
       ),
-      error: (_, __, ___) => const SizedBox(),
+      error: (_, __) => const SizedBox(),
     );
   }
 }
