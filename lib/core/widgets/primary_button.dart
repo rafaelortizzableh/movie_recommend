@@ -9,7 +9,9 @@ class PrimaryButton extends StatelessWidget {
     this.isLoading = false,
     this.width = double.infinity,
   }) : super(key: key);
-
+  static const _loadersize16 = 16.0;
+  static const _elevation0 = 0.0;
+  static const _widthDivisionFactor2 = 2.0;
   final VoidCallback onPressed;
   final String text;
   final double width;
@@ -19,7 +21,7 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      width: size.width / 2,
+      width: size.width / _widthDivisionFactor2,
       child: Padding(
         padding: const EdgeInsets.all(kHorizontalPadding),
         child: ElevatedButton(
@@ -29,13 +31,14 @@ class PrimaryButton extends StatelessWidget {
             children: [
               if (isLoading)
                 const SizedBox(
-                    height: 16.0,
+                    height: _loadersize16,
+                    width: _loadersize16,
                     child: CircularProgressIndicator(color: Colors.white))
               else
                 Text(text)
             ],
           ),
-          style: ElevatedButton.styleFrom(elevation: 0),
+          style: ElevatedButton.styleFrom(elevation: _elevation0),
         ),
       ),
     );

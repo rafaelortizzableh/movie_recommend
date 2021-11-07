@@ -4,7 +4,7 @@
     "start_url": ".",
     "display": "standalone",
     "background_color": "#000000",
-    "theme_color": "#000000",
+    "theme_color": "#4051B5",
     "description": "Personalized movie recommendations",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,

@@ -10,3 +10,4 @@ export 'years_back/years_export.dart';
 export 'ratings/ratings_export.dart';
 export 'result/result_export.dart';
 export 'paging_state/paging_state_exports.dart';
+export 'recommended_movie/recommended_movie_export.dart';

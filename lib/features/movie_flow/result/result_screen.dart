@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,26 +54,33 @@ class ResultScreen extends ConsumerWidget {
     final mediaQuery = MediaQuery.of(context);
     final theme = Theme.of(context);
     final _selectedMovie = ref.read(movieFlowControllerProvider).movie;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          body: _selectedMovie.when(
+            data: (movie) => ResultMovie(
+                movie: movie,
+                mediaQuery: mediaQuery,
+                theme: theme,
+                animationController: animationController),
+            loading: () =>
+                const Center(child: CircularProgressIndicator.adaptive()),
+            error: (error, _) => error is Failure
+                ? FailureBody(message: error.message)
+                : const SizedBox(),
+          ),
         ),
-      ),
-      body: _selectedMovie.when(
-        data: (movie) => ResultMovie(
-            movie: movie,
-            mediaQuery: mediaQuery,
-            theme: theme,
-            animationController: animationController),
-        loading: () =>
-            const Center(child: CircularProgressIndicator.adaptive()),
-        error: (error, _) => error is Failure
-            ? FailureBody(message: error.message)
-            : const SizedBox(),
-      ),
+        if ((ref.watch(recommendedMovieProvider)) is RecommendedMoviePreview)
+          const Align(
+              alignment: Alignment.center, child: RecommendedMovieWidget())
+      ],
     );
   }
 }
@@ -334,8 +340,11 @@ class SuggestedMoviesGrid extends StatelessWidget {
             childAspectRatio: 0.7,
             crossAxisSpacing: 0,
           ),
-          itemBuilder: (BuildContext context, int index) => MovieBox(
-            movie: movies[index],
+          itemBuilder: (BuildContext context, int index) => Hero(
+            tag: movies[index].posterPath ?? movies[index].title,
+            child: MovieBox(
+              movie: movies[index],
+            ),
           ),
         ),
       ],
@@ -344,37 +353,53 @@ class SuggestedMoviesGrid extends StatelessWidget {
 }
 
 class MovieBox extends StatelessWidget {
-  const MovieBox({Key? key, required this.movie}) : super(key: key);
+  const MovieBox({Key? key, required this.movie, this.tappable = true})
+      : super(key: key);
   final Movie movie;
+  final bool tappable;
   static const double _emptyNumber = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Stack(
-      children: [
-        ShaderMask(
-          child: movie.posterPath != null
-              ? NetworkFadingImage(path: movie.posterPath!)
-              : const Center(
-                  child: Text('🍿'),
-                ),
-          blendMode: BlendMode.dstIn,
-          shaderCallback: (rect) => LinearGradient(
+    return Consumer(builder: (context, ref, _) {
+      final recommendedMovieNotifier =
+          ref.watch(recommendedMovieProvider.notifier);
+
+      return PeekAndPop(
+        onPeek: () {
+          recommendedMovieNotifier.previewMovie(movie: movie);
+        },
+        onPop: () {
+          recommendedMovieNotifier.resetRecommendedMovie();
+        },
+        child: Stack(
+          children: [
+            ShaderMask(
+              child: movie.posterPath != null
+                  ? NetworkFadingImage(path: movie.posterPath!)
+                  : const Center(child: Text('🍿')),
+              blendMode: BlendMode.dstIn,
+              shaderCallback: (rect) => LinearGradient(
                   begin: Alignment.center,
                   end: Alignment.bottomCenter,
-                  colors: [theme.scaffoldBackgroundColor, Colors.transparent])
-              .createShader(
-            Rect.fromLTRB(_emptyNumber, _emptyNumber, rect.width, rect.height),
-          ),
+                  colors: [
+                    theme.scaffoldBackgroundColor,
+                    Colors.transparent
+                  ]).createShader(
+                Rect.fromLTRB(
+                    _emptyNumber, _emptyNumber, rect.width, rect.height),
+              ),
+            ),
+            Positioned(
+              bottom: kHorizontalPadding * 2,
+              left: _emptyNumber,
+              right: _emptyNumber,
+              child: Text(movie.title, textAlign: TextAlign.center),
+            ),
+          ],
         ),
-        Positioned(
-          bottom: kHorizontalPadding * 2,
-          left: _emptyNumber,
-          right: _emptyNumber,
-          child: Text(movie.title, textAlign: TextAlign.center),
-        ),
-      ],
-    );
+      );
+    });
   }
 }
