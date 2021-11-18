@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'movie_flow_export.dart';
 import '../../core/core.dart';
 
@@ -26,7 +26,7 @@ class TMDBMovieRepository implements MovieRepository {
   @override
   Future<List<GenreEntity>> getMovieGenres() async {
     try {
-      var languageCode =
+      final languageCode =
           Localizations.localeOf(AppConstants.navigationKey.currentContext!)
               .languageCode;
       final response = await _dio.get('genre/movie/list', queryParameters: {
@@ -74,7 +74,6 @@ class TMDBMovieRepository implements MovieRepository {
       final response =
           await _dio.get('discover/movie', queryParameters: queryParams);
       final results = List<Map<String, dynamic>>.from(response.data['results']);
-      Clipboard.setData(ClipboardData(text: results.toString()));
       return results.map((e) => MovieEntity.fromMap(e)).toList();
     } on DioError catch (e) {
       if (e.error is SocketException) {
