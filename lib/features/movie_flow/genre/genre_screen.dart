@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../movie_flow_export.dart';
-import 'genre_exports.dart';
 import '../../../core/core.dart';
 
 class GenreScreen extends ConsumerWidget {

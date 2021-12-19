@@ -12,7 +12,7 @@ class MovieEntity {
   final String? posterPath;
   final int id;
 
-  MovieEntity({
+  const MovieEntity({
     required this.title,
     required this.overview,
     required this.voteAverage,

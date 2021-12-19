@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../movie_flow_export.dart';
-import 'paging_state_exports.dart';
 
 final pageControllerProvider =
     StateNotifierProvider.autoDispose<PagingController, PageState>((ref) {

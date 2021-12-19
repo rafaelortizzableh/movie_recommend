@@ -55,7 +55,7 @@ class TMDBMovieRepository implements MovieRepository {
   Future<List<MovieEntity>> getRecommendedMovie(double rating,
       String startingDate, String endingDate, String genreIds) async {
     try {
-      var languageCode =
+      final languageCode =
           Localizations.localeOf(AppConstants.navigationKey.currentContext!)
               .languageCode;
 
@@ -94,7 +94,7 @@ class TMDBMovieRepository implements MovieRepository {
   @override
   Future<List<MovieEntity>> getSimilarMovies(int movieId) async {
     try {
-      var languageCode =
+      final languageCode =
           Localizations.localeOf(AppConstants.navigationKey.currentContext!)
               .languageCode;
 

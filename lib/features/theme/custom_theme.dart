@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:ultimate_app/core/core.dart';
 import 'theme_export.dart';
 
 class CustomTheme {
   static const double _buttonFontSize = 16.0;
   static const double _appBarElevation = 0;
+
   static ThemeData darkTheme() {
     final theme = ThemeData.dark();
     return ThemeData(

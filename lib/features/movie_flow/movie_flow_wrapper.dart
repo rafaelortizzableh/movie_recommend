@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ultimate_app/features/movie_flow/landing/landing_exports.dart';
 import 'movie_flow_export.dart';
 
 class MovieFlow extends ConsumerWidget {

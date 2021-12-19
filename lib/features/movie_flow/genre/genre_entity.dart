@@ -4,7 +4,7 @@ class GenreEntity {
   final String name;
   final int id;
 
-  GenreEntity({
+  const GenreEntity({
     required this.name,
     required this.id,
   });

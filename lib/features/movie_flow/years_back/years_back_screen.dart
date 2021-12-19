@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ultimate_app/features/movie_flow/result/result_export.dart';
 import '../../../core/core.dart';
 import '../movie_flow_export.dart';
 

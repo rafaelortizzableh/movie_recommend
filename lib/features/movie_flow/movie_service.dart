@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'genre/genre_exports.dart';
 import '../../core/core.dart';
 import 'movie_flow_export.dart';
 
