@@ -10,6 +10,8 @@ You need an API KEY from TMDB to build or run this app. Get your API key from [h
 
 Once you have an api, declare it as an environment variable with `-dart-define=MOVIE_API=YOUR_API_KEY`.
 
+Otherwise, you can see the app running [here](https://movie-recommend-1.web.app).
+
 ## About the tools used
 
 State Management & Dependency Injection are handled with Riverpod.
