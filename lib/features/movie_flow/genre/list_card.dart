@@ -15,11 +15,11 @@ class ListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      borderRadius: BorderRadius.circular(kBorderRadius),
+      borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       color: genre.isSelected ? theme.colorScheme.primary : Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(kBorderRadius),
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius),
         child: Container(
           width: _listCardWidth,
           padding: const EdgeInsets.symmetric(

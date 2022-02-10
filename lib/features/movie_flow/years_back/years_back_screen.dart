@@ -24,7 +24,7 @@ class YearsBackScreen extends ConsumerWidget {
                 ref.read(pageControllerProvider.notifier).previousPage()),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(kHorizontalPadding),
+        padding: const EdgeInsets.all(AppConstants.horizontalPadding),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

@@ -40,7 +40,7 @@ class GenresSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.all(kHorizontalPadding),
+      padding: const EdgeInsets.all(AppConstants.horizontalPadding),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,7 +60,8 @@ class GenresSelector extends ConsumerWidget {
             ),
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: kListItemSpacing),
+                padding: const EdgeInsets.symmetric(
+                    vertical: AppConstants.listItemSpacing),
                 itemBuilder: (context, index) {
                   final genre = genres[index];
                   return ListCard(
@@ -73,7 +74,7 @@ class GenresSelector extends ConsumerWidget {
                   );
                 },
                 separatorBuilder: (context, index) => const SizedBox(
-                  height: kListItemSpacing,
+                  height: AppConstants.listItemSpacing,
                 ),
                 itemCount: genres.length,
               ),

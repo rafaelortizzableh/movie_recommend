@@ -23,7 +23,7 @@ class LandingScreen extends ConsumerWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(kHorizontalPadding),
+        padding: const EdgeInsets.all(AppConstants.horizontalPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -46,7 +46,8 @@ class LandingScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(kHorizontalPadding),
+                    padding:
+                        const EdgeInsets.all(AppConstants.horizontalPadding),
                     child: Image.asset('assets/images/cinema_vector.png'),
                   ),
                 ],

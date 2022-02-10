@@ -23,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
     return SizedBox(
       width: size.width / _widthDivisionFactor2,
       child: Padding(
-        padding: const EdgeInsets.all(kHorizontalPadding),
+        padding: const EdgeInsets.all(AppConstants.horizontalPadding),
         child: ElevatedButton(
           onPressed: onPressed,
           child: Row(

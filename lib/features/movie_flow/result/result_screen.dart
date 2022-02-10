@@ -151,7 +151,7 @@ class ResultMovie extends StatelessWidget {
               ),
               const SizedBox(height: movieHeight / 2),
               Padding(
-                padding: const EdgeInsets.all(kHorizontalPadding),
+                padding: const EdgeInsets.all(AppConstants.horizontalPadding),
                 child: FadeTransition(
                   opacity: descriptionOpacity,
                   child: Text(
@@ -161,8 +161,8 @@ class ResultMovie extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: kHorizontalPadding),
+                padding: const EdgeInsets.symmetric(
+                    vertical: AppConstants.horizontalPadding),
                 child: FadeTransition(
                     opacity: descriptionOpacity,
                     child: const SugggestedMovies()),
@@ -171,7 +171,8 @@ class ResultMovie extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: kHorizontalPadding),
+          padding:
+              const EdgeInsets.only(bottom: AppConstants.horizontalPadding),
           child: FadeTransition(
             opacity: buttonOpacity,
             child: PrimaryButton(
@@ -236,7 +237,8 @@ class MovieimageDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kMediumSpacing),
+      padding:
+          const EdgeInsets.symmetric(horizontal: AppConstants.mediumSpacing),
       child: Row(
         children: [
           SizedBox(
@@ -246,7 +248,7 @@ class MovieimageDetails extends StatelessWidget {
               path: movie.posterPath ?? '',
             ),
           ),
-          const SizedBox(width: kMediumSpacing),
+          const SizedBox(width: AppConstants.mediumSpacing),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,13 +324,14 @@ class SuggestedMoviesGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.horizontalPadding),
           child: Text(
             '${AppLocalizations.of(context)?.similarMovies}',
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
-        const SizedBox(height: kHorizontalPadding),
+        const SizedBox(height: AppConstants.horizontalPadding),
         GridView.builder(
           shrinkWrap: true,
           itemCount: movies.length,
@@ -390,7 +393,7 @@ class MovieBox extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: kHorizontalPadding * 2,
+              bottom: AppConstants.horizontalPadding * 2,
               left: _emptyNumber,
               right: _emptyNumber,
               child: Text(movie.title, textAlign: TextAlign.center),
