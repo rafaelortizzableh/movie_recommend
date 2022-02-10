@@ -1,30 +1,23 @@
-# ultimate_app
+# Movie Recommendation App
 
-A new Flutter project.
+This project is my take of the project created on [Robert Brunhage's Ultimate Flutter Course](https://robertbrunhage.com/course). 
+
+Apart from the functionalities specified on that project. This app includes Internalization allowing user to get both the app's strings and the movie results in Spanish or English. 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+You need an API KEY from TMDB to build or run this app. Get your API key from [here](https://developers.themoviedb.org/3/getting-started/introduction).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Once you have an api, declare it as an environment variable with `-dart-define=MOVIE_API=YOUR_API_KEY`.
 
-## Assets
+## About the tools used
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+State Management & Dependency Injection are handled with Riverpod.
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+## Others
 
-## Localization
+MVU architecture used. As well as repository-service pattern. 
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+State Management is handled with Riverpod. 
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+Both dark and light themes are available. 
