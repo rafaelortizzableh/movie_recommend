@@ -8,7 +8,7 @@ Apart from the functionalities specified on that project. This app includes Inte
 
 You need an API KEY from TMDB to build or run this app. Get your API key from [here](https://developers.themoviedb.org/3/getting-started/introduction).
 
-Once you have an api, declare it as an environment variable with `-dart-define=MOVIE_API=YOUR_API_KEY`.
+Once you have an api, declare it as an environment variable with `--dart-define=MOVIE_API=YOUR_API_KEY`.
 
 Otherwise, you can see the app running [here](https://movie-recommend-1.web.app).
 
