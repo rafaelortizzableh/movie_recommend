@@ -1,6 +1,6 @@
 # Movie Recommendation App
 
-This project is my take of the project created on [Robert Brunhage's Ultimate Flutter Course](https://robertbrunhage.com/course). 
+This project is my take of the movie recommendation app featured on [Robert Brunhage's Ultimate Flutter Course](https://robertbrunhage.com/course). 
 
 Apart from the functionalities specified on that project. This app includes Internalization allowing user to get both the app's strings and the movie results in Spanish or English. 
 
