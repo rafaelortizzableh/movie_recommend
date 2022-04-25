@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'movie_flow_export.dart';
 
 final movieFlowControllerProvider =
@@ -20,38 +22,65 @@ final movieFlowControllerProvider =
 );
 
 class MovieFlowController extends StateNotifier<MovieFlowState> {
-  MovieFlowController(MovieFlowState state, this._movieService) : super(state) {
-    loadGenres();
-  }
+  MovieFlowController(MovieFlowState state, this._movieService) : super(state);
   final MovieService _movieService;
 
-  Future<void> getMovie() async {
+  Future<void> getMovie({
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
     state = state.copyWith(movie: const AsyncValue.loading());
     final result = await _movieService.getRecommendedMovie(
-        state.rating, state.yearsBack, state.genres.asData!.value);
+      state.rating,
+      state.yearsBack,
+      state.genres.asData!.value,
+      l10n: l10n,
+      languageCode: languageCode,
+    );
     result
         .when((error) => state = state.copyWith(movie: AsyncValue.error(error)),
             (movies) {
       final random = Random();
       final movie = movies[random.nextInt(movies.length)];
-      getSimilarMovies(movie.id);
+      _getSimilarMovies(
+        movie.id,
+        l10n: l10n,
+        languageCode: languageCode,
+      );
       state = state.copyWith(movie: AsyncValue.data(movie));
     });
   }
 
-  Future<void> getSimilarMovies(int movieId) async {
+  Future<void> _getSimilarMovies(
+    int movieId, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
     state = state.copyWith(similarMovies: const AsyncValue.loading());
-    final result = await _movieService.getSimilarMovies(movieId);
+    final result = await _movieService.getSimilarMovies(
+      movieId,
+      l10n: l10n,
+      languageCode: languageCode,
+    );
     result.when(
-        (error) =>
-            state = state.copyWith(similarMovies: AsyncValue.error(error)),
-        (similarMovies) => state =
-            state.copyWith(similarMovies: AsyncValue.data(similarMovies)));
+      (error) => state = state.copyWith(
+        similarMovies: AsyncValue.error(error),
+      ),
+      (similarMovies) => state = state.copyWith(
+        similarMovies: AsyncValue.data(similarMovies),
+      ),
+    );
   }
 
-  Future<void> loadGenres() async {
+  Future<void> loadGenres({
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
     state = state.copyWith(genres: const AsyncValue.loading());
-    final result = await _movieService.getGenres();
+    final result = await _movieService.getGenres(
+      l10n: l10n,
+      languageCode: languageCode,
+    );
     result.when(
         (error) => state = state.copyWith(genres: AsyncValue.error(error)),
         (data) => state = state.copyWith(genres: AsyncValue.data(data)));

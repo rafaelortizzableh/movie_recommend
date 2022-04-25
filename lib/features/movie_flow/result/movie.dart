@@ -85,15 +85,14 @@ class Movie {
     );
   }
 
-  factory Movie.fromEntity(MovieEntity movieEntity, List<Genre> genres) {
+  factory Movie.fromEntity(
+      MovieEntity movieEntity, List<Genre> genres, String urlPrefix) {
     return Movie(
         id: movieEntity.id,
         title: movieEntity.title,
         overview: movieEntity.overview,
-        backdropPath:
-            'https://image.tmdb.org/t/p/original/${movieEntity.backdropPath}',
-        posterPath:
-            'https://image.tmdb.org/t/p/original/${movieEntity.posterPath}',
+        backdropPath: '$urlPrefix${movieEntity.backdropPath}',
+        posterPath: '$urlPrefix${movieEntity.posterPath}',
         voteAverage: movieEntity.voteAverage,
         genres: genres
             .where((element) => movieEntity.genreIds.contains(element.id))

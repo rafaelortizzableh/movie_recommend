@@ -382,12 +382,13 @@ class MovieBox extends StatelessWidget {
                   : const Center(child: Text('🍿')),
               blendMode: BlendMode.dstIn,
               shaderCallback: (rect) => LinearGradient(
-                  begin: Alignment.center,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    theme.scaffoldBackgroundColor,
-                    Colors.transparent
-                  ]).createShader(
+                begin: Alignment.center,
+                end: Alignment.bottomCenter,
+                colors: [
+                  theme.scaffoldBackgroundColor,
+                  Colors.transparent,
+                ],
+              ).createShader(
                 Rect.fromLTRB(
                     _emptyNumber, _emptyNumber, rect.width, rect.height),
               ),

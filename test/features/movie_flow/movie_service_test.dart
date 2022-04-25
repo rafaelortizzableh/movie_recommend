@@ -75,6 +75,6 @@ void main() {
     final result = await movieService.getRecommendedMovie(
         3.5.round(), const RangeValues(1990, 2020), [genre]);
     final movie = result.getSuccess()!.first;
-    expect(movie, Movie.fromEntity(movieEntity, const [genre]));
+    expect(movie, Movie.fromEntity(movieEntity, const [genre], ''));
   });
 }

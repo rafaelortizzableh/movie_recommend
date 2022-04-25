@@ -1,29 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../core/core.dart';
 import 'movie_flow_export.dart';
 
+const _tmdbImageUrlPrefix = 'https://image.tmdb.org/t/p/original/';
+
 final movieServiceProvider = Provider<MovieService>((ref) {
   final moviedbRepository = ref.watch(movieRepositoryProvider);
-  return TMDBMovieService(moviedbRepository);
+  return TMDBMovieService(moviedbRepository, _tmdbImageUrlPrefix);
 });
 
 abstract class MovieService {
-  Future<Result<Failure, List<Genre>>> getGenres();
-  Future<Result<Failure, List<Movie>>> getSimilarMovies(int movieId);
+  Future<Result<Failure, List<Genre>>> getGenres({
+    String? languageCode,
+    AppLocalizations? l10n,
+  });
+  Future<Result<Failure, List<Movie>>> getSimilarMovies(
+    int movieId, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  });
   Future<Result<Failure, List<Movie>>> getRecommendedMovie(
-      int rating, RangeValues yearsBack, List<Genre> genres);
+    int rating,
+    RangeValues yearsBack,
+    List<Genre> genres, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  });
 }
 
 class TMDBMovieService implements MovieService {
   final MovieRepository _tmdbMovieRepository;
+  final String? _imageUrlPrefix;
 
-  TMDBMovieService(this._tmdbMovieRepository);
+  const TMDBMovieService(this._tmdbMovieRepository, [this._imageUrlPrefix]);
+
   @override
-  Future<Result<Failure, List<Genre>>> getGenres() async {
+  Future<Result<Failure, List<Genre>>> getGenres({
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
     try {
-      final _genreEntities = await _tmdbMovieRepository.getMovieGenres();
+      final _genreEntities = await _tmdbMovieRepository.getMovieGenres(
+        languageCode: languageCode,
+        l10n: l10n,
+      );
       final _genres = _genreEntities
           .map((e) => Genre.fromEntity(e))
           .toList(growable: false);
@@ -37,8 +61,10 @@ class TMDBMovieService implements MovieService {
   Future<Result<Failure, List<Movie>>> getRecommendedMovie(
     int rating,
     RangeValues yearsBack,
-    List<Genre> genres,
-  ) async {
+    List<Genre> genres, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
     final startingDate = '${yearsBack.start.ceil()}-01-01';
     final endingDate = '${yearsBack.end.ceil()}-12-31';
     final selectedGenres = genres.where((element) => element.isSelected);
@@ -47,9 +73,16 @@ class TMDBMovieService implements MovieService {
 
     try {
       final movieEntities = await _tmdbMovieRepository.getRecommendedMovie(
-          rating.toDouble(), startingDate, endingDate, genreIds);
-      final movies =
-          movieEntities.map((e) => Movie.fromEntity(e, genres)).toList();
+        rating.toDouble(),
+        startingDate,
+        endingDate,
+        genreIds,
+        l10n: l10n,
+        languageCode: languageCode,
+      );
+      final movies = movieEntities
+          .map((e) => Movie.fromEntity(e, genres, _imageUrlPrefix ?? ''))
+          .toList();
       if (movies.isEmpty) {
         return Error(Failure(message: 'No movies found'));
       }
@@ -60,12 +93,22 @@ class TMDBMovieService implements MovieService {
   }
 
   @override
-  Future<Result<Failure, List<Movie>>> getSimilarMovies(int movieId) async {
+  Future<Result<Failure, List<Movie>>> getSimilarMovies(
+    int movieId, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
     try {
-      final movieEntities =
-          await _tmdbMovieRepository.getSimilarMovies(movieId);
-      final movies =
-          movieEntities.map((e) => Movie.fromEntity(e, const [])).toList();
+      final movieEntities = await _tmdbMovieRepository.getSimilarMovies(
+        movieId,
+        l10n: l10n,
+        languageCode: languageCode,
+      );
+      final movies = movieEntities
+          .map(
+            (e) => Movie.fromEntity(e, const [], _imageUrlPrefix ?? ''),
+          )
+          .toList();
       if (movies.isEmpty) {
         return Error(Failure(message: 'No movies found'));
       }

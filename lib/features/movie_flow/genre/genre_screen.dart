@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../movie_flow_export.dart';
 import '../../../core/core.dart';
 
-class GenreScreen extends ConsumerWidget {
-  const GenreScreen({Key? key}) : super(key: key);
+class GenreScreen extends ConsumerStatefulWidget {
+  const GenreScreen({
+    Key? key,
+    required this.l10n,
+    required this.locale,
+  }) : super(key: key);
+  final AppLocalizations? l10n;
+  final Locale? locale;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _GenreScreenState();
+}
+
+class _GenreScreenState extends ConsumerState<GenreScreen> {
+  @override
+  void initState() {
+    ref.read(movieFlowControllerProvider.notifier).loadGenres(
+          l10n: widget.l10n,
+          languageCode: widget.locale?.languageCode,
+        );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final genres = ref.watch(movieFlowControllerProvider).genres;
 
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-            onPressed: () =>
-                ref.read(pageControllerProvider.notifier).previousPage()),
+          onPressed: ref.read(pageControllerProvider.notifier).previousPage,
+        ),
       ),
       body: genres.when(
-          data: (genres) => GenresSelector(genres: genres),
-          loading: () =>
-              const Center(child: CircularProgressIndicator.adaptive()),
-          error: (error, _) => error is Failure
-              ? FailureBody(message: '$error')
-              : const SizedBox()),
+        data: (genres) => GenresSelector(genres: genres),
+        loading: () => const Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
+        error: (error, _) => error is Failure
+            ? FailureBody(message: '$error')
+            : const SizedBox(),
+      ),
     );
   }
 }

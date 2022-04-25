@@ -32,60 +32,81 @@ void main() {
     container.dispose();
   });
 
-  group('MovieFlowControllerTests - ', () {
-    test(
-        'Given succesfull call, When getting Recommended Movie, Then that movie should be represented',
-        () async {
-      const movieEntity = MovieEntity(
-          title: 'title',
-          overview: 'overview',
-          voteAverage: 3.5,
-          genreIds: [1],
-          releaseDate: '2010-02-03',
-          id: 1,
-          backdropPath: 'x',
-          posterPath: 'y');
-
-      when(() => mockedMovieService.getRecommendedMovie(
-              any(), const RangeValues(2009, 2011), any()))
-          .thenAnswer((invocation) {
-        return Future.value(Success([
-          Movie.fromEntity(movieEntity, [genre])
-        ]));
-      });
-
-      await container.read(movieFlowControllerProvider.notifier).getMovie();
-
-      expect(container.read(movieFlowControllerProvider).movie,
-          Movie.fromEntity(movieEntity, [genre]));
-    });
-
-    for (final rating in [0, 7, 10, 2, -2]) {
+  group(
+    'MovieFlowControllerTests - ',
+    () {
       test(
-          'Given different ratings, When updating rating with $rating, Then that rating should be represented',
-          () {
-        container
-            .read(movieFlowControllerProvider.notifier)
-            .updateRating(rating);
-        expect(container.read(movieFlowControllerProvider).rating,
-            rating.isNegative ? 0 : rating);
-      });
-    }
-    for (final yearsBack in const [
-      RangeValues(1980, 1990),
-      RangeValues(1990, 2000),
-      RangeValues(2000, 2010),
-      RangeValues(2010, 2020)
-    ]) {
-      test(
-          'Given different ranges of years, When updating amount of years back with $yearsBack, Then that range should be represented',
-          () {
-        container
-            .read(movieFlowControllerProvider.notifier)
-            .updateYearsBack(yearsBack);
+          'Given succesfull call, When getting Recommended Movie, Then that movie should be represented',
+          () async {
+        const movieEntity = MovieEntity(
+          title: '',
+          overview: '',
+          voteAverage: 0,
+          genreIds: [],
+          releaseDate: '',
+          id: 0,
+          backdropPath: '',
+          posterPath: '',
+        );
+
+        when(
+          () => mockedMovieService.getRecommendedMovie(
+            any(),
+            const RangeValues(2009, 2011),
+            any(),
+          ),
+        ).thenAnswer((invocation) {
+          return Future.value(Success([
+            Movie.fromEntity(
+              movieEntity,
+              [genre],
+              '',
+            )
+          ]));
+        });
+
         expect(
-            container.read(movieFlowControllerProvider).yearsBack, yearsBack);
+            container.read(movieFlowControllerProvider).movie.value,
+            Movie.fromEntity(
+              movieEntity,
+              [genre],
+              '',
+            ));
       });
-    }
-  });
+
+      for (final rating in const [
+        0,
+        7,
+        10,
+        2,
+        -2,
+      ]) {
+        test(
+            'Given different ratings, When updating rating with $rating, Then that rating should be represented',
+            () {
+          container
+              .read(movieFlowControllerProvider.notifier)
+              .updateRating(rating);
+          expect(container.read(movieFlowControllerProvider).rating,
+              rating.isNegative ? 0 : rating);
+        });
+      }
+      for (final yearsBack in const [
+        RangeValues(1980, 1990),
+        RangeValues(1990, 2000),
+        RangeValues(2000, 2010),
+        RangeValues(2010, 2020),
+      ]) {
+        test(
+            'Given different ranges of years, When updating amount of years back with $yearsBack, Then that range should be represented',
+            () {
+          container
+              .read(movieFlowControllerProvider.notifier)
+              .updateYearsBack(yearsBack);
+          expect(
+              container.read(movieFlowControllerProvider).yearsBack, yearsBack);
+        });
+      }
+    },
+  );
 }
