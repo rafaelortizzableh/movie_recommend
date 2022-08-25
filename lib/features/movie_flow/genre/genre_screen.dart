@@ -21,10 +21,13 @@ class GenreScreen extends ConsumerStatefulWidget {
 class _GenreScreenState extends ConsumerState<GenreScreen> {
   @override
   void initState() {
-    ref.read(movieFlowControllerProvider.notifier).loadGenres(
-          l10n: widget.l10n,
-          languageCode: widget.locale?.languageCode,
-        );
+    Future.delayed(
+      Duration.zero,
+      () => ref.read(movieFlowControllerProvider.notifier).loadGenres(
+            l10n: widget.l10n,
+            languageCode: widget.locale?.languageCode,
+          ),
+    );
     super.initState();
   }
 

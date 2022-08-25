@@ -13,8 +13,12 @@ class NetworkFadingImage extends StatelessWidget {
     return Image.network(
       path,
       fit: BoxFit.cover,
-      frameBuilder: (BuildContext context, Widget child, int? frame,
-          bool wasSynchronouslyLoaded) {
+      frameBuilder: (
+        BuildContext context,
+        Widget child,
+        int? frame,
+        bool wasSynchronouslyLoaded,
+      ) {
         if (wasSynchronouslyLoaded) {
           return child;
         }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,21 +38,17 @@ class MovieFlowController extends StateNotifier<MovieFlowState> {
       l10n: l10n,
       languageCode: languageCode,
     );
-    result
-        .when((error) => state = state.copyWith(movie: AsyncValue.error(error)),
-            (movies) {
-      final random = Random();
-      final movie = movies[random.nextInt(movies.length)];
-      _getSimilarMovies(
-        movie.id,
-        l10n: l10n,
-        languageCode: languageCode,
-      );
-      state = state.copyWith(movie: AsyncValue.data(movie));
-    });
+    result.when(
+      (error) => state = state.copyWith(movie: AsyncValue.error(error)),
+      (movies) {
+        final random = Random();
+        final movie = movies[random.nextInt(movies.length)];
+        state = state.copyWith(movie: AsyncValue.data(movie));
+      },
+    );
   }
 
-  Future<void> _getSimilarMovies(
+  Future<void> getSimilarMovies(
     int movieId, {
     String? languageCode,
     AppLocalizations? l10n,

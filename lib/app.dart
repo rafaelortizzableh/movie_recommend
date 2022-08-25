@@ -39,7 +39,13 @@ class MyApp extends ConsumerWidget {
                   case MovieFlow.routeName:
                     return const MovieFlow();
                   case ResultScreen.routeName:
-                    return const ResultScreenAnimator();
+                    return ResultScreenWrapper(
+                      selectedRecommendedMovie: (routeSettings.arguments
+                              is ResultScreenArguments)
+                          ? (routeSettings.arguments as ResultScreenArguments)
+                              .movie
+                          : null,
+                    );
                   default:
                     return const MovieFlow();
                 }

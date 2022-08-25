@@ -86,16 +86,21 @@ class Movie {
   }
 
   factory Movie.fromEntity(
-      MovieEntity movieEntity, List<Genre> genres, String urlPrefix) {
+    MovieEntity movieEntity,
+    List<Genre> genres,
+    String urlPrefix,
+  ) {
     return Movie(
         id: movieEntity.id,
         title: movieEntity.title,
         overview: movieEntity.overview,
-        backdropPath: '$urlPrefix${movieEntity.backdropPath}',
-        posterPath: '$urlPrefix${movieEntity.posterPath}',
+        backdropPath: _appendUrlPrefix(movieEntity.backdropPath, urlPrefix),
+        posterPath: _appendUrlPrefix(movieEntity.posterPath, urlPrefix),
         voteAverage: movieEntity.voteAverage,
         genres: genres
-            .where((element) => movieEntity.genreIds.contains(element.id))
+            .where(
+              (element) => movieEntity.genreIds.contains(element.id),
+            )
             .toList(),
         releaseDate: movieEntity.releaseDate);
   }
@@ -134,5 +139,14 @@ class Movie {
         backdropPath.hashCode ^
         posterPath.hashCode ^
         id.hashCode;
+  }
+
+  static String _appendUrlPrefix(
+    String? imageReference,
+    String urlPrefix,
+  ) {
+    if (imageReference == null) return '';
+    if (imageReference.startsWith('/')) return urlPrefix + imageReference;
+    return '$urlPrefix/$imageReference';
   }
 }

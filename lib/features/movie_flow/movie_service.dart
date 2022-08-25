@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../core/core.dart';
 import 'movie_flow_export.dart';
 
-const _tmdbImageUrlPrefix = 'https://image.tmdb.org/t/p/original/';
+const _tmdbImageUrlPrefix = 'https://image.tmdb.org/t/p/original';
 
 final movieServiceProvider = Provider<MovieService>((ref) {
   final moviedbRepository = ref.watch(movieRepositoryProvider);
@@ -33,10 +33,10 @@ abstract class MovieService {
 }
 
 class TMDBMovieService implements MovieService {
-  final MovieRepository _tmdbMovieRepository;
+  final MovieRepository _movieRepository;
   final String? _imageUrlPrefix;
 
-  const TMDBMovieService(this._tmdbMovieRepository, [this._imageUrlPrefix]);
+  const TMDBMovieService(this._movieRepository, [this._imageUrlPrefix]);
 
   @override
   Future<Result<Failure, List<Genre>>> getGenres({
@@ -44,7 +44,7 @@ class TMDBMovieService implements MovieService {
     AppLocalizations? l10n,
   }) async {
     try {
-      final _genreEntities = await _tmdbMovieRepository.getMovieGenres(
+      final _genreEntities = await _movieRepository.getMovieGenres(
         languageCode: languageCode,
         l10n: l10n,
       );
@@ -72,7 +72,7 @@ class TMDBMovieService implements MovieService {
         selectedGenres.map((e) => e.id).toList(growable: false).join(',');
 
     try {
-      final movieEntities = await _tmdbMovieRepository.getRecommendedMovie(
+      final movieEntities = await _movieRepository.getRecommendedMovie(
         rating.toDouble(),
         startingDate,
         endingDate,
@@ -99,7 +99,7 @@ class TMDBMovieService implements MovieService {
     AppLocalizations? l10n,
   }) async {
     try {
-      final movieEntities = await _tmdbMovieRepository.getSimilarMovies(
+      final movieEntities = await _movieRepository.getSimilarMovies(
         movieId,
         l10n: l10n,
         languageCode: languageCode,

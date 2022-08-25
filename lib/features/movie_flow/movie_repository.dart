@@ -12,8 +12,10 @@ final movieRepositoryProvider = Provider<MovieRepository>(
     (ref) => TMDBMovieRepository(ref.watch(dioProvider)));
 
 abstract class MovieRepository {
-  Future<List<GenreEntity>> getMovieGenres(
-      {String? languageCode, AppLocalizations? l10n});
+  Future<List<GenreEntity>> getMovieGenres({
+    String? languageCode,
+    AppLocalizations? l10n,
+  });
 
   Future<List<MovieEntity>> getSimilarMovies(
     int movieId, {
@@ -26,6 +28,12 @@ abstract class MovieRepository {
     String startingDate,
     String endingDate,
     String genreIds, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  });
+
+  Future<MovieEntity> getMovie(
+    int movieId, {
     String? languageCode,
     AppLocalizations? l10n,
   });
@@ -125,6 +133,41 @@ class TMDBMovieRepository implements MovieRepository {
           queryParameters: queryParams);
       final results = List<Map<String, dynamic>>.from(response.data['results']);
       return results.map((e) => MovieEntity.fromMap(e)).toList();
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        final noConnectionMessage =
+            l10n?.noInternetConnection ?? 'No Internet connection';
+        throw Failure(
+          message: noConnectionMessage,
+          exception: e,
+        );
+      }
+
+      throw Failure(
+        message: e.response?.statusMessage ?? 'Something went wrong',
+        code: e.response?.statusCode,
+      );
+    }
+  }
+
+  @override
+  Future<MovieEntity> getMovie(
+    int movieId, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
+    try {
+      final queryParams = {
+        'api_key': AppConstants.apiKey,
+        'language': languageCode ?? 'en',
+      };
+
+      final response = await _dio.get(
+        'movie/$movieId',
+        queryParameters: queryParams,
+      );
+      final result = response.data;
+      return MovieEntity.fromMap(result);
     } on DioError catch (e) {
       if (e.error is SocketException) {
         final noConnectionMessage =

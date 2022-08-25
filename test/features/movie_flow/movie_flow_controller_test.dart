@@ -1,19 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:multiple_result/multiple_result.dart';
+
+import 'package:ultimate_app/core/core.dart';
 import 'package:ultimate_app/features/movie_flow/movie_flow_export.dart';
 
-class MockMovieService extends Mock implements MovieService {}
+class MockMovieService extends Mock implements MovieService {
+  final MovieRepository _movieRepository;
+  final String? _imageUrlPrefix;
+  MockMovieService(this._movieRepository, [this._imageUrlPrefix]);
+
+  @override
+  Future<Result<Failure, List<Movie>>> getRecommendedMovie(
+    int rating,
+    RangeValues yearsBack,
+    List<Genre> genres, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
+    final startingDate = '${yearsBack.start.ceil()}-01-01';
+    final endingDate = '${yearsBack.end.ceil()}-12-31';
+    final selectedGenres = genres.where((element) => element.isSelected);
+    final genreIds =
+        selectedGenres.map((e) => e.id).toList(growable: false).join(',');
+
+    try {
+      final movieEntities = await _movieRepository.getRecommendedMovie(
+        rating.toDouble(),
+        startingDate,
+        endingDate,
+        genreIds,
+        l10n: l10n,
+        languageCode: languageCode,
+      );
+      final movies = movieEntities
+          .map((e) => Movie.fromEntity(e, genres, _imageUrlPrefix ?? ''))
+          .toList();
+      if (movies.isEmpty) {
+        return Error(Failure(message: 'No movies found'));
+      }
+      return Success(movies);
+    } on Failure catch (failure) {
+      return Error(failure);
+    }
+  }
+}
 
 void main() {
+  late MovieRepository mockedMovieRepository;
   late MovieService mockedMovieService;
   late ProviderContainer container;
   late Genre genre;
 
   setUp(() {
-    mockedMovieService = MockMovieService();
+    mockedMovieRepository = MockMovieRepository();
+    mockedMovieService = MockMovieService(mockedMovieRepository);
     container = ProviderContainer(overrides: [
       movieServiceProvider.overrideWithValue(mockedMovieService),
     ]);
@@ -35,45 +79,6 @@ void main() {
   group(
     'MovieFlowControllerTests - ',
     () {
-      test(
-          'Given succesfull call, When getting Recommended Movie, Then that movie should be represented',
-          () async {
-        const movieEntity = MovieEntity(
-          title: '',
-          overview: '',
-          voteAverage: 0,
-          genreIds: [],
-          releaseDate: '',
-          id: 0,
-          backdropPath: '',
-          posterPath: '',
-        );
-
-        when(
-          () => mockedMovieService.getRecommendedMovie(
-            any(),
-            const RangeValues(2009, 2011),
-            any(),
-          ),
-        ).thenAnswer((invocation) {
-          return Future.value(Success([
-            Movie.fromEntity(
-              movieEntity,
-              [genre],
-              '',
-            )
-          ]));
-        });
-
-        expect(
-            container.read(movieFlowControllerProvider).movie.value,
-            Movie.fromEntity(
-              movieEntity,
-              [genre],
-              '',
-            ));
-      });
-
       for (final rating in const [
         0,
         7,
@@ -107,6 +112,94 @@ void main() {
               container.read(movieFlowControllerProvider).yearsBack, yearsBack);
         });
       }
+
+      test(
+        'Given succesfull call, When getting Recommended Movie, Then that movie should be represented',
+        () async {
+          await container.read(movieFlowControllerProvider.notifier).getMovie();
+
+          expect(
+            container.read(movieFlowControllerProvider).movie,
+            AsyncValue.data(
+              Movie.initial(),
+            ),
+          );
+        },
+      );
+      test(
+        'Given succesfull call, When getting Similar Movies, Then thaose movies should be represented',
+        () async {
+          await container.read(movieFlowControllerProvider.notifier).getMovie();
+
+          expect(
+            container.read(movieFlowControllerProvider).movie,
+            AsyncValue.data(
+              Movie.initial(),
+            ),
+          );
+        },
+      );
     },
   );
+}
+
+class MockMovieRepository extends Mock implements MovieRepository {
+  MockMovieRepository();
+
+  @override
+  Future<List<MovieEntity>> getRecommendedMovie(
+    double rating,
+    String startingDate,
+    String endingDate,
+    String genreIds, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
+    try {
+      return const [
+        MovieEntity(
+          title: '',
+          overview: '',
+          voteAverage: 0,
+          id: 0,
+          genreIds: [],
+          releaseDate: '',
+          backdropPath: '',
+          posterPath: '',
+        ),
+      ];
+    } catch (e) {
+      throw Failure(
+        message: 'Something went wrong',
+        code: 001,
+      );
+    }
+  }
+
+  @override
+  Future<List<MovieEntity>> getSimilarMovies(
+    int movieId, {
+    String? languageCode,
+    AppLocalizations? l10n,
+  }) async {
+    try {
+      return const [
+        MovieEntity(
+          title: '',
+          overview: '',
+          voteAverage: 0,
+          id: 0,
+          genreIds: [],
+          releaseDate: '',
+          backdropPath: '',
+          posterPath: '',
+        ),
+      ];
+    } catch (e) {
+      throw Failure(
+        message: 'Something went wrong',
+        code: 001,
+      );
+    }
+  }
 }

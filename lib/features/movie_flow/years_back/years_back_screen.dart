@@ -97,10 +97,26 @@ class YearsBackScreen extends ConsumerWidget {
                 onPressed: () async {
                   final l10n = AppLocalizations.of(context);
                   final locale = Localizations.localeOf(context);
-                  await ref.read(movieFlowControllerProvider.notifier).getMovie(
-                        l10n: l10n,
-                        languageCode: locale.languageCode,
-                      );
+                  final movieController =
+                      ref.read(movieFlowControllerProvider.notifier);
+                  await movieController.getMovie(
+                    l10n: l10n,
+                    languageCode: locale.languageCode,
+                  );
+                  final movie =
+                      ref.read(movieFlowControllerProvider).movie.value;
+                  if (movie == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Error'),
+                      ),
+                    );
+                  }
+                  movieController.getSimilarMovies(
+                    movie!.id,
+                    languageCode: locale.languageCode,
+                    l10n: l10n,
+                  );
                   Navigator.pushNamed(context, ResultScreen.routeName);
                 },
                 text: '${AppLocalizations.of(context)?.pageViewContinue}',

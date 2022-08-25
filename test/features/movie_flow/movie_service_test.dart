@@ -53,28 +53,39 @@ void main() {
   });
 
   test(
-      'Given succesfull call, When getting MovieEntity, Then map to correct movie',
-      () async {
-    const genre = Genre(name: 'Animation', id: 1, isSelected: true);
-    const movieEntity = MovieEntity(
-        title: 'title',
-        overview: 'overview',
-        voteAverage: 3.5,
-        genreIds: [1],
-        releaseDate: '2010-02-03',
-        id: 1,
-        backdropPath: 'x',
-        posterPath: 'y');
+    'Given succesfull call, When getting MovieEntity, Then map to correct movie',
+    () async {
+      const genre = Genre(name: 'Animation', id: 1, isSelected: true);
+      const movieEntity = MovieEntity(
+          title: 'title',
+          overview: 'overview',
+          voteAverage: 3.5,
+          genreIds: [1],
+          releaseDate: '2010-02-03',
+          id: 1,
+          backdropPath: 'x',
+          posterPath: 'y');
 
-    when(() => mockedMovieRepository.getRecommendedMovie(
-        any(), any(), any(), any())).thenAnswer((invocation) {
-      return Future.value([movieEntity]);
-    });
+      when(() => mockedMovieRepository.getRecommendedMovie(
+          any(), any(), any(), any())).thenAnswer((invocation) {
+        return Future.value([movieEntity]);
+      });
 
-    final movieService = TMDBMovieService(mockedMovieRepository);
-    final result = await movieService.getRecommendedMovie(
-        3.5.round(), const RangeValues(1990, 2020), [genre]);
-    final movie = result.getSuccess()!.first;
-    expect(movie, Movie.fromEntity(movieEntity, const [genre], ''));
-  });
+      final movieService = TMDBMovieService(mockedMovieRepository);
+      final result = await movieService.getRecommendedMovie(
+        3.5.round(),
+        const RangeValues(1990, 2020),
+        [genre],
+      );
+      final movie = result.getSuccess()!.first;
+      expect(
+        movie,
+        Movie.fromEntity(
+          movieEntity,
+          const [genre],
+          '',
+        ),
+      );
+    },
+  );
 }
